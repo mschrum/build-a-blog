@@ -24,16 +24,21 @@ class Handler(webapp2.RequestHandler):
         self.write(self.render_str(template, **kw))
 
 class MainHandler(Handler):
+    def render_frontpage(self, title = "", body = "", error = ""):
+        self.render('frontpage.html', title = title, body = body, error = error)
     def get(self):
-        self.render('frontpage.html')
+        self.render_frontpage()
     def post(self):
         title = self.request.get("title")
         body = self.request.get("body")
         if title and body:
-            self.write("Thank you for submitting a post!")
+            b = BolgPost(title = title, body =body)
+            b.put()
+
+            self.redirect("/")
         else:
             error = "You need both a title and a body!"
-            self.render("frontpage.html", error = error)
+            self.render_frontpage(title, body, error)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)
