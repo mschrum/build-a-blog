@@ -2,9 +2,15 @@
 
 {% block content %}
 <form action="/" method="post">
-    <label>Post Submission:</label>
-    <textarea type="text" name="text"></textarea>
-    <br>
-    <input type="submit"/>
+    <lable>
+        <div>Post Title:</div>
+        <input type="text" name="title"/>
+    </label>
+    <label>
+        <div>Post Submission:</div>
+        <textarea type="text" name="body"></textarea>
+    </label>
+    <div class = "error">{{error}}</div>
+    <input type="submit" value = "Submit"/>
 </form>
 {% endblock %}
