@@ -3,14 +3,22 @@
 {% block content %}
 <form method="post">
     <lable>
-        <div>Post Title:</div>
-        <input type="text" name="title" value={{title}}>
+        <div>Post Subject:</div>
+        <input type="text" name="subject" value={{subject}}>
     </label>
     <label>
         <div>Post Submission:</div>
-        <textarea type="text" name="body">{{body}}</textarea>
+        <textarea name="content">{{content}}</textarea>
     </label>
     <div class = "error">{{error}}</div>
     <input type="submit" value = "Submit"/>
 </form>
+<hr/>
+  {% for blogpost in posts %}
+    <div class="content">
+        <div class="posts-subject">{{ blogpost.subject }}</div>
+        <div class="posts-content">{{ blogpost.content }}</div>
+    </div>
+  {% endfor %}
+
 {% endblock %}

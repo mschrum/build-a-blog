@@ -9,10 +9,6 @@ from google.appengine.ext import db
 template_dir = os.path.join(os.path.dirname(__file__), "templates")
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                 autoescape = True)
-class BolgPost(db.Model):
-    title = db.StringProperty(required = True)
-    body = db.TextProperty(required = True)
-    created = db.DateTimeProperty(auto_now_add = True)
 
 class Handler(webapp2.RequestHandler):
     def write(self, *a, **kw):
@@ -23,23 +19,33 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
-class MainHandler(Handler):
-    def render_frontpage(self, title = "", body = "", error = ""):
-        self.render('frontpage.html', title = title, body = body, error = error)
+class BlogPost(db.Model):
+    subject = db.StringProperty(required = True)
+    content = db.TextProperty(required = True)
+    created = db.DateTimeProperty(auto_now_add = True)
+
+class Root(Handler):
+    def get(self):
+        self.redirect("/blog")
+
+class BlogHandler(Handler):
+    def render_frontpage(self, subject = "", content = "", error = ""):
+        posts = db.GqlQuery("SELECT * FROM BlogPost ORDER BY created DESC")
+        self.render('frontpage.html', subject = subject, content = content, error = error, posts = posts)
     def get(self):
         self.render_frontpage()
     def post(self):
-        title = self.request.get("title")
-        body = self.request.get("body")
-        if title and body:
-            b = BolgPost(title = title, body =body)
+        subject = self.request.get("subject")
+        content = self.request.get("content")
+        if subject and content:
+            b = BlogPost(subject = subject, content = content)
             b.put()
-
-            self.redirect("/")
+            self.redirect("/blog")
         else:
             error = "You need both a title and a body!"
-            self.render_frontpage(title, body, error)
+            self.render_frontpage(subject, content, error)
 
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/', Root),
+    ('/blog', BlogHandler)
 ], debug=True)
