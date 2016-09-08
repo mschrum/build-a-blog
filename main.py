@@ -29,11 +29,17 @@ class Root(Handler):
         self.redirect("/blog")
 
 class BlogHandler(Handler):
-    def render_frontpage(self, subject = "", content = "", error = ""):
-        posts = db.GqlQuery("SELECT * FROM BlogPost ORDER BY created DESC")
-        self.render('frontpage.html', subject = subject, content = content, error = error, posts = posts)
+    def render_frontpage(self):
+        posts = db.GqlQuery("SELECT * FROM BlogPost ORDER BY created DESC LIMIT 5")
+        self.render('frontpage.html', posts = posts)
     def get(self):
         self.render_frontpage()
+
+class NewPost(Handler):
+    def render_newpost(self, subject = "", content = "", error = ""):
+        self.render('newpost.html', subject = subject, content = content, error = error)
+    def get (self):
+        self.render_newpost()
     def post(self):
         subject = self.request.get("subject")
         content = self.request.get("content")
@@ -43,9 +49,10 @@ class BlogHandler(Handler):
             self.redirect("/blog")
         else:
             error = "You need both a title and a body!"
-            self.render_frontpage(subject, content, error)
+            self.render_newpost(subject, content, error)
 
 app = webapp2.WSGIApplication([
     ('/', Root),
-    ('/blog', BlogHandler)
+    ('/blog', BlogHandler),
+    ('/newpost', NewPost)
 ], debug=True)
