@@ -51,7 +51,17 @@ class NewPost(Handler):
             error = "You need both a title and a body!"
             self.render_newpost(subject, content, error)
 
+class ViewPostHandler(Handler):
+    def get(self, id):
+        int_id= int(id)
+        idnum = BlogPost.get_by_id(int_id)
+        if idnum:
+            self.render('singlepost.html', error = "",int_id = int_id, idnum = idnum)
+        else:
+            error = "The post you requested does not exist!"
+            self.render('singlepost.html', error = error, int_id = "", idnum = "")
 app = webapp2.WSGIApplication([
+    webapp2.Route('/blog/<id:\d+>', ViewPostHandler),
     ('/', Root),
     ('/blog', BlogHandler),
     ('/newpost', NewPost)

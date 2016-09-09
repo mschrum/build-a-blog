@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content">
+    <div class="posts-id">{{ int_id }}</div>
+    <br>
+    <div class="posts-subject">{{ idnum.subject }}</div>
+    <div class="posts-content">{{ idnum.content }}</div>
+    <br>
+    <div class="posts-created">{{ idnum.created }}</div>
+</div>
+<div class="error">{{ error }}</div>
+{% endblock %}
