@@ -46,7 +46,7 @@ class NewPost(Handler):
         if subject and content:
             b = BlogPost(subject = subject, content = content)
             b.put()
-            self.redirect("/blog")
+            self.redirect("/blog/" + str(b.key().id()))
         else:
             error = "You need both a title and a body!"
             self.render_newpost(subject, content, error)
