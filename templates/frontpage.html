@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+<section>
 {% block content %}
   {% for blogpost in posts %}
     <div class="content">
@@ -8,7 +9,5 @@
         <hr>
     </div>
   {% endfor %}
-  <form action="/newpost" method="get">
-      <button type"submit">Create Post</button>
-  </form>
+</section>
 {% endblock %}

@@ -5,26 +5,35 @@ body {
     font-family: Helvetica, Arial, sans-serif;
     font-size: 14px;
 
-    width: 800px;
+    width: 600px;
     margin: 0 auto;
     padding: 10px;
     color: #333;
 }
 
 h2 {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     margin-bottom: 20px;
     color: blue;
+    text-align: center;
 }
 a {
     text-decoration: none;
     color: currentColor;
 }
-button{
-  font-size: 24px;
+nav ul {
+	text-align: left;
+	padding: 0;
 }
-
+nav ul li {
+	display: inline-block;
+	font-size: 24px;
+    padding: 4px;
+}
+.TopNav{
+    border-right: 1px solid #000000;
+}
 label {
   display: block;
   font-size: 20px;

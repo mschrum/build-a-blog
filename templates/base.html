@@ -7,8 +7,30 @@
         <title>Build-A-Blog</title>
     </head>
     <body>
-        <h2><a href="/blog">Melissa's Blog</a></h2>
+        <header>
+            <div>
+                <nav>
+                    <ul>
+                        <li class="TopNav"><a href="/blog">Home</a></li>
+                        <li class="TopNav"><a href="/newpost">New Post</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div>
+                <h2><a href="/blog">Melissa's Blog</a></h2>
+            </div>
+        </header>
         {% block content %}
         {% endblock %}
+        <footer>
+            <div>
+                <nav class="BottomNav">
+                    <ul>
+                        <li><a href=""> &lt prev</a></li>
+                        <li><a href="">next &gt</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </footer>
     </body>
 </html>

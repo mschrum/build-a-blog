@@ -11,6 +11,9 @@ jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                 autoescape = True)
 
 class Handler(webapp2.RequestHandler):
+    def get_posts(self,num_limit,num_offset):
+        posts = db.GqlQuery("SELECT * FROM BlogPost ORDER BY created DESC")
+        return posts.fetch(limit=num_limit,offset=num_offset)
     def write(self, *a, **kw):
         self.response.out.write(*a,**kw)
     def render_str(self, template, **params):
@@ -30,7 +33,15 @@ class Root(Handler):
 
 class BlogHandler(Handler):
     def render_frontpage(self):
-        posts = db.GqlQuery("SELECT * FROM BlogPost ORDER BY created DESC LIMIT 5")
+        page = self.request.get("page")
+        offset = 0
+        page_size = 5
+        if page:
+            page = int(page)
+            offset=(page-1)*page_size
+        else:
+            page = 1
+        posts = self.get_posts(5,offset)
         self.render('frontpage.html', posts = posts)
     def get(self):
         self.render_frontpage()
