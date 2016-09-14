@@ -41,8 +41,16 @@ class BlogHandler(Handler):
             offset=(page-1)*page_size
         else:
             page = 1
-        posts = self.get_posts(5,offset)
-        self.render('frontpage.html', posts = posts)
+        posts = self.get_posts(page_size,offset)
+        if page>1:
+            prev_page = page - 1
+        else:
+            prev_page = None
+        if BlogPost.all().count()>offset+page_size:
+            next_page = page +1
+        else:
+            next_page = None
+        self.render('frontpage.html', posts = posts, prev_page=prev_page, next_page= next_page)
     def get(self):
         self.render_frontpage()
 

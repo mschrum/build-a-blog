@@ -26,8 +26,12 @@
             <div>
                 <nav class="BottomNav">
                     <ul>
-                        <li><a href=""> &lt prev</a></li>
-                        <li><a href="">next &gt</a></li>
+                        {% if prev_page %}
+                        <li><a href="/blog?page={{prev_page}}"> &lt prev</a></li>
+                        {% endif %}
+                        {% if next_page %}
+                        <li><a href="/blog?page={{next_page}}">next &gt</a></li>
+                        {% endif %}
                     </ul>
                 </nav>
             </div>
